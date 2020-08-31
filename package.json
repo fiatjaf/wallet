@@ -87,7 +87,7 @@
     "react-native-randombytes": "^3.0.0",
     "react-native-ratings": "^6.5.0",
     "react-native-rsa-native": "https://github.com/Emad-salah/react-native-rsa-native#ebdc4cf17253b267541eb41f0e2f5d7a03e8690d",
-    "react-native-sensitive-info": "^5.5.3",
+    "react-native-sensitive-info": "^5.5.8",
     "react-native-smart-carousel": "^1.1.0",
     "react-native-snap-carousel": "^4.0.0-beta.6",
     "react-native-svg": "^12.1.0",
