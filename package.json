@@ -45,6 +45,7 @@
     "immer": "^6.0.3",
     "inherits": "^2.0.1",
     "jetifier": "^1.6.4",
+    "joi": "^17.2.1",
     "js-lnurl": "0.0.8",
     "jsonfile": "^4.0.0",
     "jsonwebtoken": "^8.4.0",

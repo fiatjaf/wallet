@@ -8,12 +8,14 @@ import {
   PermissionsAndroid,
   Linking,
   ToastAndroid,
+  Text,
 } from 'react-native'
 import moment from 'moment'
 import Http, { AxiosRequestConfig } from 'axios'
 import Logger from 'react-native-file-log'
 import { Logger as CommonLogger, Store } from 'shock-common'
 import { DISABLE_ENCRYPTION } from './app/config'
+const Joi = require('joi')
 
 import { Provider } from 'react-redux'
 
@@ -187,13 +189,16 @@ export default class ShockWallet extends React.Component {
     }
 
     return (
-      <Provider store={store}>
-        <PersistGate loading={<Loading />} persistor={persistor}>
-          <ConnectionProvider>
-            <RootStack ref={NavigationService.setTopLevelNavigator} />
-          </ConnectionProvider>
-        </PersistGate>
-      </Provider>
+      <Text>
+        {JSON.stringify(
+          Joi.object({
+            a: Joi.number(),
+            b: Joi.boolean(),
+          }).validate({
+            b: 'true',
+          }),
+        )}
+      </Text>
     )
   }
 }
