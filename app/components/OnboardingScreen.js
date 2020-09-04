@@ -11,6 +11,7 @@ import {
   Text,
   ActivityIndicator,
   Dimensions,
+  TouchableWithoutFeedback,
 } from 'react-native'
 // @ts-ignore
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
@@ -30,12 +31,13 @@ import FlexCenter from './FlexCenter'
  * @prop {(() => void | null | boolean)=} onPressBack Hack needed for the
  * transparent header until we upgrade react-navigation. If provided a back
  * arrow will be shown.
+ * @prop {(() => void)=} onPressLogo
  */
 
 const theme = 'dark'
 
 export default /** @type {React.FC<Props>} */ (React.memo(
-  ({ centerContent, children, loading, onPressBack }) => (
+  ({ centerContent, children, loading, onPressBack, onPressLogo }) => (
     <>
       <StatusBar
         translucent
@@ -56,7 +58,12 @@ export default /** @type {React.FC<Props>} */ (React.memo(
           {theme === 'dark' ? (
             <View style={xStyles.logo}>
               <View style={styles.shockLogoContainerDark}>
-                <Image style={styles.shockLogoDark} source={RES.newLogoDark} />
+                <TouchableWithoutFeedback onPress={onPressLogo}>
+                  <Image
+                    style={styles.shockLogoDark}
+                    source={RES.newLogoDark}
+                  />
+                </TouchableWithoutFeedback>
               </View>
               <Pad amount={12} />
             </View>
