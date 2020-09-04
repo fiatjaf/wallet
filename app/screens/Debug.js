@@ -6,6 +6,9 @@ import { Constants } from 'shock-common'
 import * as CSS from '../res/css'
 import * as Cache from '../services/cache'
 import { Actions, Events, Socket } from '../services/contact-api'
+import * as Navigation from '../services/navigation'
+import { CONNECT_TO_NODE } from '../screens/ConnectToNode'
+
 import QR from './WalletOverview/QR'
 
 const { Action } = Constants
@@ -121,6 +124,12 @@ class Debug extends React.Component {
     Cache.writeStoredAuthData(null)
   }
 
+  clearAllStorage = async () => {
+    await Cache.clearAllStorage()
+
+    Navigation.navigate(CONNECT_TO_NODE)
+  }
+
   render() {
     const { lastPing } = this.state
 
@@ -175,6 +184,8 @@ class Debug extends React.Component {
           title="Send Sent Requests Event"
           onPress={this.sendSentReqsEvent}
         />
+
+        <Button title="CLEAR ALL STORAGE" onPress={this.clearAllStorage} />
 
         <QR
           size={256}
