@@ -2,7 +2,7 @@
  * @prettier
  */
 import React from 'react'
-import { Text, View, Linking } from 'react-native'
+import { Text, View, Linking, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import Logger from 'react-native-file-log'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
@@ -13,6 +13,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn'
 import * as CSS from '../res/css'
 import * as Cache from '../services/cache'
 import * as Conn from '../services/connection'
+import { disableEncryption } from '../config'
 import { isValidURL as isValidIP } from '../services/utils'
 import Pad from '../components/Pad'
 import QRScanner from './QRScanner'
@@ -56,6 +57,7 @@ export const CONNECT_TO_NODE = 'CONNECT_TO_NODE'
  * @prop {boolean} pinging
  * @prop {boolean} wasBadPing
  * @prop {boolean} scanningQR
+ * @prop {number} timesPressed
  */
 
 /** @type {State} */
@@ -66,6 +68,8 @@ const DEFAULT_STATE = {
   pinging: false,
   wasBadPing: false,
   scanningQR: false,
+
+  timesPressed: 0,
 }
 
 /**
@@ -102,6 +106,18 @@ class ConnectToNode extends React.Component {
   componentWillUnmount() {
     this.mounted = true
     this.didFocusSub.remove()
+  }
+
+  componentDidUpdate() {
+    if (this.state.timesPressed === 5) {
+      ToastAndroid.show('5 taps away from dev', ToastAndroid.SHORT)
+    }
+
+    if (this.state.timesPressed === 10) {
+      disableEncryption()
+
+      ToastAndroid.show('Disabled encryption', ToastAndroid.LONG)
+    }
   }
 
   checkCacheForNodeURL = async () => {
@@ -242,6 +258,12 @@ class ConnectToNode extends React.Component {
     }
   }
 
+  onPressLogo = () => {
+    this.setState(({ timesPressed }) => ({
+      timesPressed: timesPressed + 1,
+    }))
+  }
+
   render() {
     const {
       checkingCacheForNodeURL,
@@ -266,7 +288,10 @@ class ConnectToNode extends React.Component {
     }
 
     return (
-      <OnboardingScreen loading={checkingCacheForNodeURL || pinging}>
+      <OnboardingScreen
+        loading={checkingCacheForNodeURL || pinging}
+        onPressLogo={this.onPressLogo}
+      >
         <Text style={titleTextStyle}>Node Address</Text>
 
         <Pad amount={ITEM_SPACING} />
